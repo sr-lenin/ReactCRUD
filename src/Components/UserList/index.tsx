@@ -5,12 +5,13 @@ import { user, UserType } from "../UserType"
 
 
 type props = {
-  list: UserType[]
+  list: UserType[];
+  onDeleteClick: (data: UserType )=>void
 }
 
 const UserList: React.FC<props> = (props: props) => {
 
-  const {list} = props
+  const {list, onDeleteClick} = props
     return(
         <div>This is a User List
             <table>
@@ -33,7 +34,7 @@ const UserList: React.FC<props> = (props: props) => {
         <form>
           <input type="button" value="view"></input>
           <input type="button" value="edit"></input>
-          <input type="button" value="delete"></input>
+          <input type="button" value="delete" onClick={()=>onDeleteClick(user)}></input>
 
         </form>
       </td>

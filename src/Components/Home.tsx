@@ -1,12 +1,38 @@
 import React, { useState } from "react";
-import { user, UserType} from "./UserType";
+import { pageEnum, user, UserType} from "./UserType";
 import UserList from "./UserList";
 import AddUser from "./AddUser";
 
 
  const Home: React.FC = () => {
+    const [userList, setUserList] = 
+        useState(user as UserType[])
 
-    const [userList, setUserList] = useState(user as UserType[])
+    const [showPageUser, setShowPageUser] = 
+        useState(pageEnum.home)
+
+    const onAddUser = () =>{
+        setShowPageUser(pageEnum.add)
+    }
+
+    const showHomePage = ()=>{
+        setShowPageUser(pageEnum.home)
+    }
+    
+    const addUsers = (data: UserType) =>{
+        setUserList([...userList,data])
+        console.log("Usuario añadido:", data);
+    }
+
+    const deleteUser = (data: UserType)=>{
+
+        const deleteIndex = userList.indexOf(data);
+        const tempList = [...userList]
+
+        tempList.splice(deleteIndex,1)
+        setUserList(tempList)
+
+    }
     return( <>
 
             <ul>
@@ -14,7 +40,9 @@ import AddUser from "./AddUser";
                     <a>Lista de usuarios</a>
                 </li>
                 <li>
-                    <a>Crear usuarios</a>
+                    {showPageUser===pageEnum.home && 
+                (<><input type="button" value="Add Users" onClick={onAddUser}>
+                </input></>)}
                 </li>
                 <li>
                     <a>Editar usuarios</a>
@@ -24,8 +52,15 @@ import AddUser from "./AddUser";
                 </li>
             </ul>
 
-            <UserList list={userList}/>
-            <AddUser></AddUser>
+            <section>
+                
+                <UserList list={userList} onDeleteClick={deleteUser}/>
+
+                {showPageUser===pageEnum.add && 
+                <AddUser onCancelClick={showHomePage} onSubmitClick={addUsers}/>}
+            </section>
+
+            
     </>
     );
 

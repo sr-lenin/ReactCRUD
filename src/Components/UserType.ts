@@ -13,3 +13,10 @@ export const user: UserType[]=[{
     email: "jason@gmail.com",
     gender: "M"
 }]
+
+
+export enum pageEnum{
+    home,
+    list,
+    add
+}
